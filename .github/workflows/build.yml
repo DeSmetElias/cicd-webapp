@@ -15,6 +15,6 @@ jobs:
         with:
           node-version: '18'
       - name: Install dependencies
-        run: yarn install
+        run: cd webapp && yarn install
       - name: Lint code
-        run: yarn lint
+        run: cd webapp && yarn lint
