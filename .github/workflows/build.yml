@@ -23,7 +23,6 @@ jobs:
         with:
           context: ./webapp
           file: ./webapp/Dockerfile
-          load: true
           tags: desmeteliasondockerhub/webapp:latest
           push: true
       - name: Inloggen op DockerHub
