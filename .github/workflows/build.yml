@@ -18,3 +18,4 @@ jobs:
         run: cd webapp && yarn install
       - name: Lint code
         run: cd webapp && yarn lint
+
