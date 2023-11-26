@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Checkout REPO Code
         uses: actions/checkout@v3
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -25,4 +25,10 @@ jobs:
           file: ./webapp/Dockerfile
           load: true
           tags: desmeteliasondockerhub/webapp:latest
+          push: true
+      - name: Inloggen op DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
