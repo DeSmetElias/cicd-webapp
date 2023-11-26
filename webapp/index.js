@@ -1,6 +1,6 @@
 import express from 'express';
 import Boom from '@hapi/boom';
-import morgan from 'morgan'
+import morgan from 'morgan';
 import persistence from './persistence/index.js'
 
 const PORT = 3000
