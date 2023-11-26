@@ -21,8 +21,8 @@ jobs:
       - name: Bouw de Dockerimage (niet vanaf DockerHUB)
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./webapp
+          file: ./webapp/Dockerfile
           load: true
           tags: desmeteliasondockerhub/webapp:latest
 
