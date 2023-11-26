@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  webapp:
+    image: desmeteliasondockerhub/webapp:latest
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URL: "mongodb://root:example@database:27017/"
+    depends_on:
+      - database
+
+  database:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+
+  tester:
+    image: desmeteliasondockerhub/webapp:latest
+    environment:
+      API_URL: "http://webapp:3000"
+    depends_on:
+      - webapp
+      - database
+    command: ["yarn", "test", "test.spec.js"]
+
+volumes:
+  mongodb_data:

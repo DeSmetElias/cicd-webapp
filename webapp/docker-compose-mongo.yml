@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./database:/app/database
+    environment:
+      MONGO_URL: "mongodb://root:example@database:27017/"
+    depends_on:
+      - database
+    command: ["yarn", "start"]
+
+  database:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+
+  tester:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      API_URL: "http://webapp:3000"
+    depends_on:
+      - webapp
+      - database
+    command: ["yarn", "test", "test.spec.js"]
+volumes:
+  mongodb_data:

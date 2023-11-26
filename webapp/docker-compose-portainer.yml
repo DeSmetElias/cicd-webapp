@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  webapp:
+    image: desmeteliasondockerhub/webapp:latest
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URL: "mongodb://root:example@database:27017/"
+    depends_on:
+      - database
+
+  database:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+
+  tester:
+    image: desmeteliasondockerhub/webapp:latest
+    environment:
+      API_URL: "http://webapp:3000"
+    depends_on:
+      - webapp
+      - database
+    command: ["yarn", "test", "test.spec.js"]
+
+  portainer:
+    image: portainer/portainer-ce
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: always
+
+volumes:
+  mongodb_data:
+  portainer_data:
